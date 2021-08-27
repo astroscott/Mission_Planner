@@ -1,21 +1,22 @@
 # Mission_Planner
 
 ## Introduction
-Mission Planner is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. <br>
+Mission Planner is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. The tool uses the Vallado algorithm for solving Lambert's targeting problem.<br>
 
-The tool uses the Vallado algorithm for solving Lambert's targeting problem.
 Assumptions: Patched conic approximation, impulsive maneuvers, ballistic trajectory<br>
 
 ## Search Recommenations
 If performing a search yourself for dates different than those listed below, use the following strategy:
 switch to a delta-V plot, increase the date increment to between 10-30 (higher values require less calculation 
-time), set the contour upper bound to 60, increase the contonour line increment to 2, pick a departure year 
+time), set the contour upper bound to 60, increase the contour line increment to 2, pick a departure year 
 (ie: 2022-01-01 -> 2023-12-31), then set a large range of arrival dates (actual range depends on planet, 
 see above values for an idea). After loading, when you see contours on the plot, adjust the dates until you 
 have centered the contours. Once centered, lower the date increment to 1 for the highest resolution plot,
 and adjust other values as you see fit.<br>
 
-Tip: If you don't see anything while searching, increase the date range and increase the contour upper bound.<br>
+**Tip: If you don't see anything while searching, increase the date range and increase the contour upper bound.**<br>
+
+**Tip: Decreasing the date increment effectively increases the resolution of the plot, expect longer calculation times.**<br>
 
 Some convenient search windows for 2022 to view the minimal requisite delta-V and specific orbital energy from Earth to each planet in our solar system are as follows:<br>
 
