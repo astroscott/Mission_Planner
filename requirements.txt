@@ -1,0 +1,9 @@
+matplotlib
+jplephem
+plotly
+jdcal
+pandas
+numpy==1.20.0
+streamlit
+astropy
+poliastro
