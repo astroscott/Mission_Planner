@@ -23,49 +23,19 @@ Mission Planner is a tool for planning interplanetary missions between any two p
 
 Assumptions: Patched conics, impulsive maneuvers, ballistic trajectories<br>
 
-## Search Recommenations
+## Usage Recommenations
 If performing a search yourself for dates different than those listed below, use the following strategy:
-switch to a delta-V plot, increase the date increment to between 10-30 (higher values require less calculation 
-time), set the contour upper bound to 60, increase the contour line increment to 2, pick a departure year 
-(ie: 2022-01-01 -> 2023-12-31), then set a large range of arrival dates (actual range depends on planet, 
-see above values for an idea). After loading, when you see contours on the plot, adjust the dates until you 
+display only the Delta V plot, increase the calculation increment to between 10-30 (higher values require less calculation time), set the contour upper bound to 50, increase the contour line increment to 2, pick a departure year (ie: 2022-01-01 -> 2023-12-31), then set a large range of arrival dates (actual range depends on planet, 
+see values below for an idea). After loading, when you see contours on the plot, adjust the dates until you 
 have centered the contours. Once centered, lower the date increment to 1 for the highest resolution plot,
 and adjust other values as you see fit.<br>
 
-**Tip: If you don't see anything while searching, increase the date range and increase the contour upper bound.**<br>
+**Tip: Load times will increase quickly with increasing date ranges, raise calculation increment as needed**
 
-**Tip: Decreasing the date increment effectively increases the resolution of the plot, expect longer calculation times.**<br>
+**Tip: If you don't see anything after load, increase the date range and increase the contour upper bound.**<br>
+
+## 2022 Launch Windows
 
 Some convenient search windows for 2022 to view the minimal requisite delta-V and specific orbital energy from Earth to each planet in our solar system are as follows:<br>
 
-Earth -> Mercury:<br>
-Departure: [2022-08-01 ,2022-12-01]<br>
-Arrival: [2023-01-01, 2023-03-01]<br>
-
-Earth -> Venus:<br>
-Departure: [2022-11-01, 2023-11-01]<br>
-Arrival: [2023-07-01, 2024-02-01]<br>
-
-Earth -> Mars:<br>
-Departure: [2022-07-01, 2022-11-01]<br>
-Arrival: [2023-01-01, 2024-01-01]<br>
-
-Earth -> Jupiter<br>
-Departure: [2022-04-01, 2022-09-01]<br>
-Arrival: [2023-01-01, 2029-01-01]<br>
-
-Earth -> Saturn<br>
-Departure: [2022-01-01, 2022-09-01]<br>
-Arrival: [2025-01-01, 2032-01-01]<br>
-
-Earth -> Uranus<br>
-Departure: [2022-05-01, 2022-09-01]<br>
-Arrival: [2029-01-01, 2049-01-01]<br>
-
-Earth -> Neptune<br>
-Departure: [2022-03-01, 2022-08-01]<br>
-Arrival: [2040-01-01, 2075-01-01]<br>
-
-Earth -> Pluto<br>
-Departure: [2022-01-01, 2022-06-01]<br>
-Arrival: [2035-01-01, 2080-01-01]<br>
+...to be updated...
