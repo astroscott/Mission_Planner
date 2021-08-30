@@ -1,6 +1,6 @@
 # Mission_Planner
 
-## Download and Run a Local Copy (Python 3.6+)
+## Download and Run a Local Copy (Python 3)
 
 Basic setup:
 
