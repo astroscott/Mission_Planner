@@ -1,9 +1,27 @@
 # Mission_Planner
 
+## Download and Run a Local Copy (Python 3.6+)
+
+Basic setup:
+
+`cd /your/directory`<br>
+`git clone https://github.com/astroscott/Mission_Planner`<br>
+`pip -r requirements.txt`<br>
+`streamlit run app.py`<br>
+
+Or optionally install within its own virtual environment:
+
+`cd /your/directory`<br>
+`python3 -m venv env`<br>
+`source env/bin/activate`<br>
+`git clone https://github.com/astroscott/Mission_Planner`<br>
+`pip -r requirements.txt`<br>
+`streamlit run app.py`<br>
+
 ## Introduction
 Mission Planner is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. The tool uses the Vallado algorithm for solving Lambert's targeting problem.<br>
 
-Assumptions: Patched conic approximation, impulsive maneuvers, ballistic trajectory<br>
+Assumptions: Patched conics, impulsive maneuvers, ballistic trajectories<br>
 
 ## Search Recommenations
 If performing a search yourself for dates different than those listed below, use the following strategy:
