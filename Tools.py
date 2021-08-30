@@ -13,23 +13,24 @@ class Tools:
         @classmethod
         @st.cache
         def solve(cls, k, Body0, Body1, jdd, jad):
-
+            
+            # Initialize indexes:
             num_departures = len(jdd)
             num_arrivals = len(jad)
 
             # Initialize Data Arrays:
             c3s0 = np.zeros((num_arrivals, num_departures))
-            c3s1 = np.zeros((num_arrivals, num_departures))
             c3l0 = np.zeros((num_arrivals, num_departures))
-            c3l1 = np.zeros((num_arrivals, num_departures))
-            dVs0 = np.zeros((num_arrivals, num_departures))
-            dVs1 = np.zeros((num_arrivals, num_departures))
-            dVl0 = np.zeros((num_arrivals, num_departures))
-            dVl1 = np.zeros((num_arrivals, num_departures))
+            vinfs1 = np.zeros((num_arrivals, num_departures))
+            vinfl1 = np.zeros((num_arrivals, num_departures))
+            dVs = np.zeros((num_arrivals, num_departures))
+            dVl = np.zeros((num_arrivals, num_departures))
 
+            # Initialize and populate time of flight:
             jdd_grid, jad_grid = np.meshgrid(jdd, jad)
             tofs = jad_grid - jdd_grid
 
+            # Get departure and arrival body coordinates:
             rP0, vP0 = Body0.getCoords(jdd) # [km, km/s]
             rP1, vP1 = Body1.getCoords(jad) # [km, km/s]
             rP0 = rP0.transpose()
@@ -37,66 +38,56 @@ class Tools:
             vP0 = vP0.transpose()
             vP1 = vP1.transpose()   
 
+            # Populate data arrrays with lambert solutions:
             for ai in range(num_arrivals):
                 for di in range(num_departures):
-                    # Populate C3 Array
-                    (c3s0[ai, di], c3s1[ai, di],
-                    c3l0[ai,di], c3l1[ai,di],
-                    dVs0[ai,di], dVs1[ai,di], 
-                    dVl0[ai,di], dVl1[ai,di]) = cls.solveLambert(k, rP0[di], rP1[ai], vP0[di], vP1[ai], tofs[ai][di] * 86400)
+                    (c3s0[ai, di], c3l0[ai, di], vinfs1[ai, di],
+                     vinfl1[ai, di], dVs[ai, di], dVl[ai, di]) = cls.solveLambert(k, rP0[di], rP1[ai], vP0[di], vP1[ai], tofs[ai][di] * 86400)
 
-            return rP0, vP0, rP1, vP1, c3s0, c3s1, c3l0, c3l1, dVs0, dVs1, dVl0, dVl1, tofs
+            return rP0, vP0, rP1, vP1, c3s0, c3l0, vinfs1, vinfl1, dVs, dVl, tofs
 
         @classmethod
         def solveLambert(cls, k, rP0, rP1, vP0, vP1, tof):
-            try:
+            try: # Short path calculations
                 (vs0, vs1), = lambert(k * u.km**3 / u.s**2, rP0 * u.km, rP1 * u.km, tof * u.s, True)
-                vs0 = vs0.value
-                vs1 = vs1.value
-                c3s0 = np.linalg.norm(vs0 - vP0)**2
-                c3s1 = np.linalg.norm(vs1 - vP1)**2
-                dVs0 = np.linalg.norm(vs0 - vP0) + np.sqrt(c3s0)
-                dVs1 = np.linalg.norm(vs1 - vP1) + np.sqrt(c3s1)
+                vs0 = vs0.value # strip units
+                vs1 = vs1.value # strip units
+                c3s0 = np.linalg.norm(vs0 - vP0)**2 # Short path departure excess energy
+                vinfs1 = np.linalg.norm(vs1 - vP1) # Short path arrival surplus velocity
+                dVs = abs(vinfs1) + np.sqrt(c3s0) # Short path total delta V requirement
                 
-            except:
-                vs0 = np.array([0,0,0])
-                vs1 = np.array([0,0,0])
+            except: # If lambert solver returns no solutions, do not plot:
                 c3s0 = None
-                c3s1 = None
-                dVs0 = None
-                dVs1 = None
+                vinfs1 = None
+                dVs = None
 
-            try:
+            try: # Long path calculations
                 (vl0, vl1), = lambert(k * u.km**3 / u.s**2, rP0 * u.km, rP1 * u.km, tof * u.s, False)
-                vl0 = vl0.value
-                vl1 = vl1.value
-                c3l0 = np.linalg.norm(vl0 - vP0)**2
-                c3l1 = np.linalg.norm(vl1 - vP1)**2
-                dVl0 = np.linalg.norm(vl0 - vP0) + np.sqrt(c3l0)
-                dVl1 = np.linalg.norm(vl1 - vP1) + np.sqrt(c3l1)
+                vl0 = vl0.value # strip units
+                vl1 = vl1.value # strip units
+                c3l0 = np.linalg.norm(vl0 - vP0)**2 # Long path departure excess energy
+                vinfl1 = np.linalg.norm(vl1 - vP1) # Long path arrival surplus velocity
+                dVl = abs(vinfl1) + np.sqrt(c3l0) # Long path total delta V requirement
                 
-            except:
-                vl0 = np.array([0,0,0])
-                vl1 = np.array([0,0,0])
+            except: # If lambert solver returns no solutions, do not plot:
                 c3l0 = None
-                c3l1 = None
-                dVl0 = None
-                dVl1 = None
-
-            return c3s0, c3s1, c3l0, c3l1, dVs0, dVs1, dVl0, dVl1
+                vinfl1 = None
+                dVl = None
+            return c3s0, c3l0, vinfs1, vinfl1, dVs, dVl
     
     class Plot:
         @staticmethod
         @st.cache(suppress_st_warning=True)
-        def porkchop(config, dd, ad, short, long, tof):
+        def porkchop(config, dd, ad, c3s0, c3l0, vinfs1, vinfl1, dVs, dVl, tofs):
 
+            # Plot formatting:
             layout = go.Layout(
             margin=go.layout.Margin(
                     l=10, #left margin
                     r=10, #right margin
                     b=10, #bottom margin
                     t=10,  #top margin
-                    pad=10
+                    pad=10 # Plot padding
                 ),
             xaxis=dict(
                 title="Launch Date",
@@ -108,8 +99,7 @@ class Tools:
                 gridcolor = "#eee"),
             plot_bgcolor= 'rgba(255,255,255,0)',
             paper_bgcolor= 'rgba(255,255,255,0)',
-            # width=config["plt_size"][0], # width
-            height=config["plt_size"][1], # height
+            height=config["plt_size"]["height"],
             hovermode="x",
             hoverlabel=dict(
                 bgcolor="black",
@@ -117,57 +107,144 @@ class Tools:
                 ),
             )
 
+            # Extra Setup:
+
             try:
-                min_short = round(np.nanmin(short))
-                min_long = round(np.nanmin(long))
+                min_c3s0 = round(np.nanmin(c3s0))
+                min_c3l0 = round(np.nanmin(c3l0))
+                min_vinfs1 = round(np.nanmin(vinfs1))
+                min_vinfl1 = round(np.nanmin(vinfl1))
+                min_dVs = round(np.nanmin(dVs))
+                min_dVl = round(np.nanmin(dVs))
+
             except ValueError:
                 st.error("No solutions in date range")
                 
-            trace1 = go.Contour(
+            c3s_trace = go.Contour(
                     name="",
                     x = dd,
                     y = ad,
-                    z = short,
-                    hovertemplate='Type 1, '+ config['plt_type'] + ': %{z} ' + config['plt_u'],
+                    z = c3s0,
+                    hovertemplate='C3, Type 1: %{z} km3/s2',
                     showscale=False,
-                    colorscale="oranges_r",
+                    colorscale=[[0, 'blue'], [1.0, 'blue']],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
-                        start=min_short,
-                        end=config["plt_ub"],
-                        size=config["plt_i"],
-                        showlabels = config["plt_lbl"],
+                        start=min_c3s0,
+                        end=config["c3_ub"],
+                        size=config["inc"],
+                        showlabels = config["c3_lbl"],
                         labelfont = dict(
                             size = 10,
-                            color = "black"
+                            color = "blue"
                         )))
 
-            trace2 = go.Contour(
+            c3l_trace = go.Contour(
                     name="",
                     x = dd,
                     y = ad,
-                    z = long,
-                    hovertemplate='Type 2, '+ config['plt_type'] + ': %{z} ' + config['plt_u'],
+                    z = c3l0,
+                    hovertemplate='C3, Type 2: %{z} km3/s2',
                     showscale=False,
-                    colorscale = "blues_r",
+                    colorscale = [[0, 'blue'], [1.0, 'blue']],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
-                        start=min_long,
-                        end=config["plt_ub"],
-                        size=config["plt_i"],
-                        showlabels = config["plt_lbl"],
+                        start=min_c3l0,
+                        end=config["c3_ub"],
+                        size=config["inc"],
+                        showlabels = config["c3_lbl"],
                         labelfont = dict(
                             size = 10,
-                            color = "black"
+                            color = "blue"
                         )))
 
-            trace3 = go.Contour(
+            vinfs_trace = go.Contour(
                     name="",
                     x = dd,
                     y = ad,
-                    z = tof,
+                    z = vinfs1,
+                    hovertemplate='V_inf, Type 1: %{z} km/s',
+                    showscale=False,
+                    colorscale=[[0, 'red'], [1.0, 'red']],
+                    contours_coloring='lines',
+                    line_width=1,
+                    contours=dict(
+                        start=min_vinfs1,
+                        end=config["vinf_ub"],
+                        size=config["inc"],
+                        showlabels=config["vinf_lbl"],
+                        labelfont=dict(
+                            size=10,
+                            color="red"
+                        )))
+
+            vinfl_trace = go.Contour(
+                    name="",
+                    x = dd,
+                    y = ad,
+                    z = vinfl1,
+                    hovertemplate='V_inf, Type 2: %{z} km/s',
+                    showscale=False,
+                    colorscale=[[0, 'red'], [1.0, 'red']],
+                    contours_coloring='lines',
+                    line_width=1,
+                    contours=dict(
+                        start=min_vinfl1,
+                        end=config["vinf_ub"],
+                        size=config["inc"],
+                        showlabels=config["vinf_lbl"],
+                        labelfont=dict(
+                            size=10,
+                            color="red"
+                        )))
+
+            dVs_trace = go.Contour(
+                    name="",
+                    x = dd,
+                    y = ad,
+                    z = dVs,
+                    hovertemplate='dV, Type 1: %{z} km/s',
+                    showscale=False,
+                    colorscale=[[0, 'green'], [1.0, 'green']],
+                    contours_coloring='lines',
+                    line_width=1,
+                    contours=dict(
+                        start=min_dVs,
+                        end=config["dv_ub"],
+                        size=config["inc"],
+                        showlabels=config["dv_lbl"],
+                        labelfont=dict(
+                            size=10,
+                            color="green"
+                        )))
+
+            dVl_trace = go.Contour(
+                    name="",
+                    x = dd,
+                    y = ad,
+                    z = dVl,
+                    hovertemplate='dV, Type 2: %{z} km/s',
+                    showscale=False,
+                    colorscale=[[0, 'green'], [1.0, 'green']],
+                    contours_coloring='lines',
+                    line_width=1,
+                    contours=dict(
+                        start=min_dVl,
+                        end=config["dv_ub"],
+                        size=config["inc"],
+                        showlabels=config["dv_lbl"],
+                        labelfont=dict(
+                            size=10,
+                            color="green"
+                        )))
+
+            tof_trace = go.Contour(
+                    name="",
+                    x = dd,
+                    y = ad,
+                    z = tofs,
                     hovertemplate='%{x} >> %{y}: %{z} days',
                     showscale=False,
                     colorscale=[[0, 'grey'], [1.0, 'grey']],
@@ -175,48 +252,38 @@ class Tools:
                     line_width=1,
                     contours=dict(
                         start=0,
-                        end=tof.max(),
-                        size=config["plt_tofi"],
+                        end=tofs.max(),
+                        size=config["tof_inc"],
                         showlabels=config["tof_lbl"],
                         labelfont=dict(
                             size=10,
                             color="black"
                         )))
             
-            fig = go.Figure(data=[trace2, trace1, trace3], layout=layout)
+            # Prepare Traces:
+            plottable_traces = []
+            if config["make_plt"]["dv"]:
+                plottable_traces.append(dVl_trace)
+                plottable_traces.append(dVs_trace)
+            if config["make_plt"]["vinf"]:
+                plottable_traces.append(vinfl_trace)
+                plottable_traces.append(vinfs_trace)
+            if config["make_plt"]["c3"]:
+                plottable_traces.append(c3l_trace)
+                plottable_traces.append(c3s_trace)
+            plottable_traces.append(tof_trace)
 
-            if not config["show_tof"]:
+            # Plot Traces:
+            fig = go.Figure(data=plottable_traces, layout=layout)
+
+            if not config["make_plt"]["tof"]:
                 fig.update_traces(
-                    selector=2,
+                    selector=len(plottable_traces)-1,
                     overwrite=True,
                     colorscale=[[0, 'rgba(0,0,0,0)'], [1.0, 'rgba(0,0,0,0)']]
                 )
 
             return fig
-
-        @staticmethod
-        def pick_plot_type(plt_type, c3s0, c3s1, c3l0, c3l1, dVs0, dVs1, dVl0, dVl1):
-
-            if plt_type == "Total C3":
-                in_s = c3s0+c3s1
-                in_l = c3l0+c3l1
-            if plt_type == "Departure C3":
-                in_s = c3s0
-                in_l = c3l0
-            if plt_type == "Arrival C3":
-                in_s = c3s1
-                in_l = c3l1
-            if plt_type == "Total dV":
-                in_s = dVs0+dVs1
-                in_l = dVl0+dVl1
-            if plt_type == "Departure dV":
-                in_s = dVs0
-                in_l = dVl0
-            if plt_type == "Arrival dV": 
-                in_s = dVs1
-                in_l = dVl1
-
-            return (in_s, in_l)
     
     class Date:
 
