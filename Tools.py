@@ -7,13 +7,33 @@ import datetime
 from astropy import units as u
 from poliastro.iod.vallado import lambert
 
+
 class Tools:
     
     class Transfer:
         @classmethod
         @st.cache
         def solve(cls, k, Body0, Body1, jdd, jad):
-            
+            # Solves lamberts problem for a range of dates and returns 2D arrays of the resultant 
+            # characteristic energy, arrival excess velocity, and velocity increment aka delta-V.
+            # Also returned are the departure and arrival body coodinates and velocities, as well 
+            # as an array of flight times.
+
+            ## Variables:
+            # c3s0           = characteristic energy at departure, type 1 transfer (short path)
+            # c3l0           = characteristic energy at departure, type 2 transfer (long path)
+            # dVs            = velocity increment aka delta-V, type 1 transfer (short path)
+            # dVl            = velocity increment aka delta-V, type 2 transer, (long path)
+            # jdd, jdd_grid  = list, matrix of julian dates for departure
+            # jad, jad_grid  = list, matrix of julian dates for arrival
+            # num_departures = index for the number of departures
+            # num_arrivals   = index for the number of arrivals    
+            # rP0, vP0       = array of positions, velocities of departure body for given date range
+            # rP1, vP1       = array of positions, velocities of arrival body for given date range
+            # tofs           = arrival of times of flight
+            # vinfs1         = excess velocity at arrival, type 1 transfer (short path)
+            # vinfl1         = excess velocity at departure, type 2 transfer (long path)        
+
             # Initialize indexes:
             num_departures = len(jdd)
             num_arrivals = len(jad)
@@ -39,8 +59,8 @@ class Tools:
             vP1 = vP1.transpose()   
 
             # Populate data arrrays with lambert solutions:
-            for ai in range(num_arrivals):
-                for di in range(num_departures):
+            for ai in range(num_arrivals): # For each arrival date and
+                for di in range(num_departures): # for each departure date, solve lamberts problem:
                     (c3s0[ai, di], c3l0[ai, di], vinfs1[ai, di],
                      vinfl1[ai, di], dVs[ai, di], dVl[ai, di]) = cls.solveLambert(k, rP0[di], rP1[ai], vP0[di], vP1[ai], tofs[ai][di] * 86400)
 
@@ -79,6 +99,16 @@ class Tools:
         @staticmethod
         @st.cache(suppress_st_warning=True)
         def porkchop(config, dd, ad, c3s0, c3l0, vinfs1, vinfl1, dVs, dVl, tofs):
+            # Takes dates, characteristic energy, excess arrival velocity, velocity increment, and times of flight
+            # to return contour plots as a brute force method for optimizing departure and arrival dates
+            # for an arbitrary mission between two planets in the solar system.
+
+            ## Variables:
+            ## ad, dd = departure, arrival date arrays
+            ## c3s0, c3l0 = type 1 (short path), type 2 (long path) characteristic energy arrays
+            ## dVs, dVl = type 1 (short path), type 2 (long path) velocity increment (delta-v) arrays
+            ## vinfs1, vinfl1 = type 1 (short path), type 2 (long path) excess velocity arrays
+            ## tofs = array of flight times for given dates
 
             # Plot formatting:
             layout = go.Layout(
@@ -100,14 +130,14 @@ class Tools:
             plot_bgcolor= 'rgba(255,255,255,0)',
             paper_bgcolor= 'rgba(255,255,255,0)',
             height=config["plt_size"]["height"],
-            hovermode="x",
+            hovermode="x", # compare along x axis on hover
             hoverlabel=dict(
                 bgcolor="black",
                 font_color="white",
                 )
             )
 
-            # Create Traces    
+            # Create Traces (Not very DRY, later version will simplify)
 
             c3_color = "red"
             vinf_color = "blue"
@@ -273,6 +303,9 @@ class Tools:
             # Plot Traces:
             fig = go.Figure(data=plottable_traces, layout=layout)
 
+            # If TOF not enabled, hide it.
+            # Note: this is still plotted invisibly so the TOF data is displayed on hover
+            # but not on the plot itself.
             if not config["make_plt"]["tof"]:
                 fig.update_traces(
                     selector=len(plottable_traces)-1,
@@ -287,9 +320,17 @@ class Tools:
 
         @classmethod
         def getRange(cls, start, end, increment):
-            # start, end: a date string ... ex: "2021-10-1"
+            # Takes a start date and end date, along with an incrementm, and returns a list
+            # of dates and julian dates between the two dates (inclusive). The spacing between
+            # days is controlled by the increment variable.
+
+            ## Variables
             # increment: an int to create array of datetime objects with increment
-            
+            # start, end = date strings ... ex: "2021-10-1"
+            # start_date, end_date = datetime objects of start, end variables
+            # date_list = array of datetime objects
+            # jdate_list = an array of julian dates
+
             # Split the strings into a string arrays -> ex: ["2021", "10", "1"]
             start = start.split('-')
             end = end.split('-')
@@ -306,8 +347,12 @@ class Tools:
 
         @staticmethod
         def date2julian(date):
+            # Takes a single date string and converts it to a julian date.
+
+            ## Variables:
             # date: a date string to be converted to a Julian Date
-            
+            # jdate = a julian date
+
             # We convert the date into J2000, and sum the return of gcal2jd function call for final Julian date
             date = date.tolist()
             jdate = sum(jd.gcal2jd(date.year, date.month, date.day))

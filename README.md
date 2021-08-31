@@ -30,11 +30,8 @@ Assumptions: Patched conics, impulsive maneuvers, ballistic trajectories<br>
 Ephemerides: de440s.bsp from NASA JPL [/naif/generic_kernels/spk/planets/](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/)<br>
 
 ## Usage Recommenations
-If performing a search yourself for dates different than those listed below, use the following strategy:
-display only the Delta V plot, increase the calculation increment to between 10-30 (higher values require less calculation time), set the contour upper bound to 50, increase the contour line increment to 2, pick a departure year (ie: 2022-01-01 -> 2023-12-31), then set a large range of arrival dates (actual range depends on planet, 
-see values below for an idea). After loading, when you see contours on the plot, adjust the dates until you 
-have centered the contours. Once centered, lower the date increment to 1 for the highest resolution plot,
-and adjust other values as you see fit.<br>
+If performing a search yourself for dates different than those listed below, use the following strategy:<br>
+display only the Delta V plot, increase the calculation increment to between 10-30 (higher values require less calculation time), set the contour upper bound to 50, increase the contour line increment to 2, pick a departure year (ie: 2022-01-01 -> 2023-12-31), then set a large range of arrival dates (actual range depends on planet, see values below for an idea). After loading, when you see contours on the plot, adjust the dates until you have centered the contours. Once centered, lower the date increment to 1 for the highest resolution plot, and adjust other values as you see fit.<br>
 
 **Tip: Load times will increase quickly with increasing date ranges, raise calculation increment as needed.**
 
@@ -44,13 +41,13 @@ and adjust other values as you see fit.<br>
 
 Some convenient search windows for 2022 from Earth to each planet in our solar system, are as follows:<br>
 
-Format (departure0, departure1) >> (arrival0, arrival1) : (c3_ub, vinf_ub, dv_ub) : cnt_inc<br>
+Format (dep0, dep1) >> (arr0, arr1) : (c3_ub, vinf_ub, dv_ub) : cnt_inc<br>
 
 where:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;departure0 = earliest departure<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;departure1 = latest departure<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arrival0 = earliest arrival<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arrival1 = latest arrival<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dep0 = earliest departure<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dep1 = latest departure<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr0 = earliest arrival<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr1 = latest arrival<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c3_ub = characteristic energy contours, upper bound<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vinf_ub = excess energy contours, upper bound<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dv_ub = velocity increment contours, upper bound<br>
@@ -69,10 +66,8 @@ Earth >> Mars:<br>
 
 ## Validation
 
-![Alt text](img/conte_2020_porkchop.png?raw=true)<br>
-src: Conte, Davide & Spencer, David. (2015). Targeting the Martian Moons via Direct Insertion into Mars' Orbit.<br>
-
-![Alt text](img/validation_screenshot.png?raw=true)<br>
-src: Scott, Aaron. (2020). Mission_Planner.<br>
+<img src="img/conte_2020_porkchop.png" height="350" /><img src="img/validation_screenshot.png" height="350" /><br>
+src left: Conte, Davide & Spencer, David. (2015). [Targeting the Martian Moons via Direct Insertion into Mars' Orbit.](https://www.researchgate.net/publication/281378287_Targeting_the_Martian_Moons_via_Direct_Insertion_into_Mars%27_Orbit)<br>
+src right : Scott, Aaron. (2020). Mission_Planner.<br>
 
 Small discrepancies exist as a result of variances in acquired ephemeris data and temporal resolution.

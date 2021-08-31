@@ -1,14 +1,18 @@
 import streamlit as st
 
 class Initialize():
+
     @staticmethod
     def config():
+    # A configuration document.
+
         st.set_page_config(
             page_title="Mission Planner",
             layout="wide",
             initial_sidebar_state="expanded"
         )
         
+    # Create the sidebar:
         st.sidebar.title("Transfer Parameters")
 
         show_c3 = st.sidebar.checkbox("Plot Departure C3", value=True)
@@ -17,6 +21,7 @@ class Initialize():
         show_tof = st.sidebar.checkbox("Plot Time of Flight (TOF)", value=False)
 
         bodies_select = st.sidebar.expander(label='Flight Settings')
+
         with bodies_select:
             departure_body = st.selectbox(
                 "Departure Body",
@@ -63,7 +68,8 @@ class Initialize():
             plt_cols = st.columns(3)
             inc = plt_cols[0].text_input('Contours', 1)
             tof_inc = plt_cols[1].text_input('TOF Lines', 50)
-        
+    
+    # Configure the solver and plotter:
         config = {
             # Flight Settings:
             "db"       : departure_body, # Departure Body
