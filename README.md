@@ -27,7 +27,7 @@ If the application doesn't open automatically, open a browser and navigate to:
 Mission Planner is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. The tool uses the Vallado algorithm for solving Lambert's targeting problem.<br>
 
 Assumptions: Patched conics, impulsive maneuvers, ballistic trajectories<br>
-Ephemerides: de440s.bsp from NASA JPL [/naif/generic_kernels/spk/planets/] (https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/)<br>
+Ephemerides: de440s.bsp from NASA JPL [/naif/generic_kernels/spk/planets/](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/)<br>
 
 ## Usage Recommenations
 If performing a search yourself for dates different than those listed below, use the following strategy:
@@ -70,6 +70,7 @@ Earth >> Mars:<br>
 
 ![Alt text](img/conte_2020_porkchop.png?raw=true)<br>
 src: Conte, Davide & Spencer, David. (2015). Targeting the Martian Moons via Direct Insertion into Mars' Orbit.<br>
+
 ![Alt text](img/validation_screenshot.png?raw=true)<br>
 src: Scott, Aaron. (2020). Mission_Planner.<br>
 
