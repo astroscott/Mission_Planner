@@ -45,15 +45,16 @@ and adjust other values as you see fit.<br>
 Some convenient search windows for 2022 from Earth to each planet in our solar system, are as follows:<br>
 
 Format (departure0, departure1) >> (arrival0, arrival1) : (c3_ub, vinf_ub, dv_ub) : cnt_inc<br>
-where<br>
-    departure0 = earliest departure<br>
-    departure1 = latest departure<br><br>
-    arrival0 = earliest arrival<br>
-    arrival1 = latest arrival<br>
-    c3_ub = characteristic energy contours, upper bound<br>
-    vinf_ub = excess energy contours, upper bound<br>
-    dv_ub = velocity increment contours, upper bound<br>
-    cnt_inc = contour line increment<br>
+
+where:<br>
+&nbsp;&nbsp;&nbsp;departure0 = earliest departure<br>
+&nbsp;&nbsp;&nbsp;departure1 = latest departure<br><br>
+&nbsp;&nbsp;&nbsp;arrival0 = earliest arrival<br>
+&nbsp;&nbsp;&nbsp;arrival1 = latest arrival<br>
+&nbsp;&nbsp;&nbsp;c3_ub = characteristic energy contours, upper bound<br>
+&nbsp;&nbsp;&nbsp;vinf_ub = excess energy contours, upper bound<br>
+&nbsp;&nbsp;&nbsp;dv_ub = velocity increment contours, upper bound<br>
+&nbsp;&nbsp;&nbsp;cnt_inc = contour line increment<br>
 
 Earth >> Mercury:<br>
 (2022-05-01, 2023-01-01) >> (2023-01-01, 2023-03-12) : (120, 30, 45) : 2 <br>
