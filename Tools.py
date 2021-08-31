@@ -267,7 +267,7 @@ class Tools:
                         )))
 
             tof_trace = go.Contour(
-                    name="TOF [s]",
+                    name="TOF [days]",
                     x = dd,
                     y = ad,
                     z = tofs,
