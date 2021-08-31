@@ -104,150 +104,147 @@ class Tools:
             hoverlabel=dict(
                 bgcolor="black",
                 font_color="white",
-                ),
+                )
             )
 
-            # Extra Setup:
+            # Create Traces    
 
-            try:
-                min_c3s0 = round(np.nanmin(c3s0))
-                min_c3l0 = round(np.nanmin(c3l0))
-                min_vinfs1 = round(np.nanmin(vinfs1))
-                min_vinfl1 = round(np.nanmin(vinfl1))
-                min_dVs = round(np.nanmin(dVs))
-                min_dVl = round(np.nanmin(dVs))
+            c3_color = "red"
+            vinf_color = "blue"
+            dv_color = "green"
 
-            except ValueError:
-                st.error("No solutions in date range")
-                
             c3s_trace = go.Contour(
-                    name="",
+                    name="C3 [km2/s2]",
                     x = dd,
                     y = ad,
                     z = c3s0,
-                    hovertemplate='C3, Type 1: %{z} km3/s2',
+                    hovertemplate='C3, Type 1: %{z} km2/s2<extra></extra>',
                     showscale=False,
-                    colorscale=[[0, 'blue'], [1.0, 'blue']],
+                    showlegend=True,
+                    colorscale=[[0, c3_color], [1.0, c3_color]],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
-                        start=min_c3s0,
+                        start=0,
                         end=config["c3_ub"],
                         size=config["inc"],
                         showlabels = config["c3_lbl"],
                         labelfont = dict(
                             size = 10,
-                            color = "blue"
+                            color = c3_color
                         )))
 
             c3l_trace = go.Contour(
-                    name="",
+                    name="C3 [km2/s2]",
                     x = dd,
                     y = ad,
                     z = c3l0,
-                    hovertemplate='C3, Type 2: %{z} km3/s2',
+                    hovertemplate='C3, Type 2: %{z} km2/s2<extra></extra>',
                     showscale=False,
-                    colorscale = [[0, 'blue'], [1.0, 'blue']],
+                    colorscale = [[0, c3_color], [1.0, c3_color]],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
-                        start=min_c3l0,
+                        start=0,
                         end=config["c3_ub"],
                         size=config["inc"],
                         showlabels = config["c3_lbl"],
                         labelfont = dict(
                             size = 10,
-                            color = "blue"
+                            color = c3_color
                         )))
 
             vinfs_trace = go.Contour(
-                    name="",
+                    name="V Infinity [km/s]",
                     x = dd,
                     y = ad,
                     z = vinfs1,
-                    hovertemplate='V_inf, Type 1: %{z} km/s',
+                    hovertemplate='V Infinity, Type 1: %{z} km/s<extra></extra>',
                     showscale=False,
-                    colorscale=[[0, 'red'], [1.0, 'red']],
+                    showlegend=True,
+                    colorscale=[[0, vinf_color], [1.0, vinf_color]],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
-                        start=min_vinfs1,
+                        start=0,
                         end=config["vinf_ub"],
                         size=config["inc"],
                         showlabels=config["vinf_lbl"],
                         labelfont=dict(
                             size=10,
-                            color="red"
+                            color=vinf_color
                         )))
 
             vinfl_trace = go.Contour(
-                    name="",
+                    name="V Infinity [km/s]",
                     x = dd,
                     y = ad,
                     z = vinfl1,
-                    hovertemplate='V_inf, Type 2: %{z} km/s',
+                    hovertemplate='V Infinty, Type 2: %{z} km/s<extra></extra>',
                     showscale=False,
-                    colorscale=[[0, 'red'], [1.0, 'red']],
+                    colorscale=[[0, vinf_color], [1.0, vinf_color]],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
-                        start=min_vinfl1,
+                        start=0,
                         end=config["vinf_ub"],
                         size=config["inc"],
                         showlabels=config["vinf_lbl"],
                         labelfont=dict(
                             size=10,
-                            color="red"
+                            color=vinf_color
                         )))
 
             dVs_trace = go.Contour(
-                    name="",
+                    name="Delta V [km/s]",
                     x = dd,
                     y = ad,
                     z = dVs,
-                    hovertemplate='dV, Type 1: %{z} km/s',
+                    hovertemplate='Delta V, Type 1: %{z} km/s<extra></extra>',
                     showscale=False,
-                    colorscale=[[0, 'green'], [1.0, 'green']],
+                    showlegend=True,
+                    colorscale=[[0, dv_color], [1.0, dv_color]],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
-                        start=min_dVs,
+                        start=0,
                         end=config["dv_ub"],
                         size=config["inc"],
                         showlabels=config["dv_lbl"],
                         labelfont=dict(
                             size=10,
-                            color="green"
+                            color=dv_color
                         )))
 
             dVl_trace = go.Contour(
-                    name="",
+                    name="Delta V [km/s]",
                     x = dd,
                     y = ad,
                     z = dVl,
-                    hovertemplate='dV, Type 2: %{z} km/s',
+                    hovertemplate='Delta V, Type 2: %{z} km/s<extra></extra>',
                     showscale=False,
-                    colorscale=[[0, 'green'], [1.0, 'green']],
+                    colorscale=[[0, dv_color], [1.0, dv_color]],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
-                        start=min_dVl,
+                        start=0,
                         end=config["dv_ub"],
                         size=config["inc"],
                         showlabels=config["dv_lbl"],
                         labelfont=dict(
                             size=10,
-                            color="green"
+                            color=dv_color
                         )))
 
             tof_trace = go.Contour(
-                    name="",
+                    name="TOF [s]",
                     x = dd,
                     y = ad,
                     z = tofs,
-                    hovertemplate='%{x} >> %{y}: %{z} days',
+                    hovertemplate='%{x} >> %{y}: %{z} days<extra></extra>',
                     showscale=False,
-                    colorscale=[[0, 'grey'], [1.0, 'grey']],
+                    showlegend=True,
+                    colorscale=[[0, 'black'], [1.0, 'black']],
                     contours_coloring='lines',
                     line_width=1,
                     contours=dict(
@@ -280,7 +277,8 @@ class Tools:
                 fig.update_traces(
                     selector=len(plottable_traces)-1,
                     overwrite=True,
-                    colorscale=[[0, 'rgba(0,0,0,0)'], [1.0, 'rgba(0,0,0,0)']]
+                    colorscale=[[0, 'rgba(0,0,0,0)'], [1.0, 'rgba(0,0,0,0)']],
+                    name=""
                 )
 
             return fig

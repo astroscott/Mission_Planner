@@ -35,14 +35,12 @@ class Initialize():
                 ),
                 index=3
             )
-            dep_cont = st.container()
-            with dep_cont:
-                dep_cols = st.columns(2)
-                departure0 = dep_cols[0].text_input('Earliest Departure', '2022-07-01')
-                departure1 = dep_cols[1].text_input('Latest Departure', '2022-11-01')
-                arr_cols = st.columns(2)
-                arrival0 = arr_cols[0].text_input('Earliest Arrival', '2023-01-01')
-                arrival1 = arr_cols[1].text_input('Latest Arrival', '2024-01-01')
+            dep_cols = st.columns(2)
+            departure0 = dep_cols[0].text_input('Earliest Departure', '2022-07-01')
+            departure1 = dep_cols[1].text_input('Latest Departure', '2022-11-01')
+            arr_cols = st.columns(2)
+            arrival0 = arr_cols[0].text_input('Earliest Arrival', '2023-01-01')
+            arrival1 = arr_cols[1].text_input('Latest Arrival', '2024-01-01')
             d_inc = st.text_input("Calculation Increment (days)", '2')
 
         plot_settings = st.sidebar.expander(label="Plot Settings")
@@ -65,7 +63,7 @@ class Initialize():
             plt_cols = st.columns(3)
             inc = plt_cols[0].text_input('Contours', 1)
             tof_inc = plt_cols[1].text_input('TOF Lines', 50)
-            
+        
         config = {
             # Flight Settings:
             "db"       : departure_body, # Departure Body

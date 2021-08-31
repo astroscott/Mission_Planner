@@ -1,6 +1,8 @@
 # Mission_Planner
 
-## Download and Run a Local Copy (Python 3.6+)
+![Alt text](img/main_screenshot.png?raw=true)
+
+## Download and Run a Local Copy (Python 3 Syntax)
 
 Basic setup:
 
@@ -18,6 +20,9 @@ Or optionally install within its own virtual environment:
 `pip -r requirements.txt`<br>
 `streamlit run app.py`<br>
 
+If the application doesn't open automatically, open a browser and navigate to:
+`http://localhost:8501`
+
 ## Introduction
 Mission Planner is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. The tool uses the Vallado algorithm for solving Lambert's targeting problem.<br>
 
@@ -30,12 +35,39 @@ see values below for an idea). After loading, when you see contours on the plot,
 have centered the contours. Once centered, lower the date increment to 1 for the highest resolution plot,
 and adjust other values as you see fit.<br>
 
-**Tip: Load times will increase quickly with increasing date ranges, raise calculation increment as needed**
+**Tip: Load times will increase quickly with increasing date ranges, raise calculation increment as needed.**
 
 **Tip: If you don't see anything after load, increase the date range and increase the contour upper bound.**<br>
 
 ## 2022 Launch Windows
 
-Some convenient search windows for 2022 to view the minimal requisite delta-V and specific orbital energy from Earth to each planet in our solar system are as follows:<br>
+Some convenient search windows for 2022 from Earth to each planet in our solar system, are as follows:<br>
 
-...to be updated...
+Format (departure0, departure1) >> (arrival0, arrival1) : (c3_ub, vinf_ub, dv_ub) : cnt_inc
+where
+    departure0 = earliest departure
+    departure1 = latest departure
+    arrival0 = earliest arrival
+    arrival1 = latest arrival
+    c3_ub = characteristic energy contours, upper bound
+    vinf_ub = excess energy contours, upper bound
+    dv_ub = velocity increment contours, upper bound
+    cnt_inc = contour line increment
+
+Earth >> Mercury:
+(2022-05-01, 2023-01-01) >> (2023-01-01, 2023-03-12) : (120, 30, 45) : 2 
+
+Earth >> Venus:
+(2023-01-01, 2023-10-01) >> (2023-06-01, 2024-03-01) : (20, 20, 20) : 1 
+
+Earth >> Mars:
+(2022-07-01, 2022-11-01) >> (2023-01-01, 2024-01-01) : (40, 15, 20) : 1
+
+... more to come ...
+
+## Validation
+
+![Alt text](img/conte_2020_porkchop.png?raw=true)
+src: Conte, Davide & Spencer, David. (2015). Targeting the Martian Moons via Direct Insertion into Mars' Orbit. 
+![Alt text](img/validation_screenshot.png?raw=true)
+src: Scott, Aaron. (2020). Mission_Planner.
