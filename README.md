@@ -1,12 +1,8 @@
 # Mission_Planner
 
-<<<<<<< HEAD
 ![Alt text](img/main_screenshot.png?raw=true)
 
 ## Download and Run a Local Copy (Python 3 Syntax)
-=======
-## Download and Run a Local Copy (Python 3)
->>>>>>> f9abc9b23ffcb0d1accbebdd5e0ae9e943d35e8f
 
 Basic setup:
 
