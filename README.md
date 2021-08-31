@@ -1,10 +1,15 @@
-# Mission_Planner
+## Introduction
 
-![Alt text](img/main_screenshot.png?raw=true)<br>
+[Mission Planner](https://share.streamlit.io/astroscott/mission_planner/main/app.py) is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. The tool uses the Vallado algorithm for solving Lambert's targeting problem.<br>
+
+Assumptions: Patched conics, impulsive maneuvers, ballistic trajectories<br>
+Ephemerides: de440s.bsp from NASA JPL [/naif/generic_kernels/spk/planets/](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/)<br>
 
 **Tip: Load times will increase quickly with increasing date ranges, raise calculation increment as needed.**<br>
 
 **Tip: If you don't see anything after load, increase the date range and increase the contour upper bound.**<br>
+
+![main screenshot](img/main_screenshot.png?raw=true)<br>
 
 ## Download and Run a Local Copy (Python 3 Syntax)
 
@@ -26,12 +31,6 @@ Or optionally install within its own virtual environment:
 
 If the application doesn't open automatically, open a browser and navigate to:
 `http://localhost:8501`
-
-## Introduction
-Mission Planner is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. The tool uses the Vallado algorithm for solving Lambert's targeting problem.<br>
-
-Assumptions: Patched conics, impulsive maneuvers, ballistic trajectories<br>
-Ephemerides: de440s.bsp from NASA JPL [/naif/generic_kernels/spk/planets/](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/)<br>
 
 ## Usage Recommenations
 If performing a search yourself for dates different than those listed below, use the following strategy:<br>
