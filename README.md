@@ -35,7 +35,7 @@ Ephemerides: de440s.bsp from NASA JPL [/naif/generic_kernels/spk/planets/](https
 
 ## Usage Recommenations
 If performing a search yourself for dates different than those listed below, use the following strategy:<br>
-display only the Delta V plot, increase the calculation increment to between 10-30 (higher values require less calculation time), set the contour upper bound to 50, increase the contour line increment to 2, pick a departure year (ie: 2022-01-01 -> 2023-12-31), then set a large range of arrival dates (actual range depends on planet, see values below for an idea). After loading, when you see contours on the plot, adjust the dates until you have centered the contours. Once centered, lower the date increment to 1 for the highest resolution plot, and adjust other values as you see fit.<br>
+display only the Delta V plot, increase the calculation increment to between 10-30 (higher values require less calculation time), set the contour upper bound to 50, increase the contour line increment to 2, pick a departure year (ie: 2022-01-01 >> 2023-12-31), then set a large range of arrival dates (actual range depends on planet, see values below for an idea). After loading, when you see contours on the plot, adjust the dates until you have centered the contours. Once centered, lower the calculation increment to 1 for the highest resolution plot, and adjust other values as you see fit.<br>
 
 ## 2022 Launch Windows
 
