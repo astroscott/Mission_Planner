@@ -66,7 +66,7 @@ Earth >> Mars:<br>
 
 ## Validation
 
-<img src="img/conte_2020_porkchop.png" height="325" /><img src="img/validation_screenshot.png" height="325" /><br>
+<img src="img/conte_2020_porkchop.png" height="300" /><img src="img/validation_screenshot.png" height="300" /><br>
 left: Conte, Davide & Spencer, David. (2015). [Targeting the Martian Moons via Direct Insertion into Mars' Orbit.](https://www.researchgate.net/publication/281378287_Targeting_the_Martian_Moons_via_Direct_Insertion_into_Mars%27_Orbit)<br>
 right : Scott, Aaron. (2020). Mission_Planner.<br>
 
