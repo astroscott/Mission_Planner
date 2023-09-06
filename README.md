@@ -13,19 +13,15 @@ Ephemerides: de440s.bsp from NASA JPL [/naif/generic_kernels/spk/planets/](https
 
 ## Download and Run a Local Copy (Python 3 Syntax)
 
-Basic setup:
+Basic setup (windows):
+Requires [Python 3.9.2rc1](https://www.python.org/downloads/release/python-392rc1/)
+
+`pip install virtualenv` if you don't have it.
 
 `cd /your/directory`<br>
 `git clone https://github.com/astroscott/Mission_Planner`<br>
-`pip -r requirements.txt`<br>
-`streamlit run app.py`<br>
-
-Or optionally install within its own virtual environment:
-
-`cd /your/directory`<br>
-`python3 -m venv env`<br>
-`source env/bin/activate`<br>
-`git clone https://github.com/astroscott/Mission_Planner`<br>
+`python -m virtualenv -p "path\to\python3.9\python.exe" env`<br>
+`env\scripts\activate.bat`<br>
 `pip -r requirements.txt`<br>
 `streamlit run app.py`<br>
 
