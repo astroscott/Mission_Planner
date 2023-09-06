@@ -1,6 +1,6 @@
 ## Introduction
 
-[Mission Planner](https://share.streamlit.io/astroscott/mission_planner/main/app.py) is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. The tool uses the Vallado algorithm for solving Lambert's targeting problem.<br>
+Mission Planner is a tool for planning interplanetary missions between any two planets in our solar system via dynamic, interactive porkchop plots. The tool uses the Vallado algorithm for solving Lambert's targeting problem.<br>
 
 Assumptions: Patched conics, impulsive maneuvers, ballistic trajectories<br>
 Ephemerides: de440s.bsp from NASA JPL [/naif/generic_kernels/spk/planets/](https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/)<br>
